@@ -1,0 +1,84 @@
+{
+  "_about": "Variable Monitoring and Audit Logging Configuration - Logs all variable changes with detailed metadata for compliance, auditing, and security monitoring",
+  
+  "monitoring": {
+    "_comment": "Master monitoring settings",
+    "enabled": true,
+    "_enabled_info": "Set to false to disable all monitoring (falls back to hardcoded defaults)",
+    "logVariableChanges": true,
+    "_logVariableChanges_info": "Log when variables are created, updated, or deleted",
+    "logFormat": "detailed",
+    "_logFormat_info": "Options: 'detailed' (full info + console), 'simple' (minimal), 'json' (json only)"
+  },
+
+  "auditLog": {
+    "_comment": "Audit log file configuration - Logs are rotated daily and stored as JSON lines",
+    "enabled": true,
+    "_enabled_info": "Set to false to disable file logging (still logs to console if monitoring.enabled=true)",
+    "filename": "variable-audit.log",
+    "_filename_info": "Base filename - dates appended automatically",
+    "dirname": "logs",
+    "_dirname_info": "Directory where audit logs are stored",
+    "datePattern": "YYYY-MM-DD",
+    "_datePattern_info": "Log rotation pattern - creates new file each day",
+    "maxFiles": "7d",
+    "_maxFiles_info": "Delete logs older than 7 days",
+    "maxSize": "100m",
+    "_maxSize_info": "Rotate log file when it reaches 100MB",
+    "createSymlink": true,
+    "_createSymlink_info": "Creates 'variable-audit.log' symlink pointing to latest log file"
+  },
+
+  "fields": {
+    "_comment": "Choose which data fields to include in log entries (set to false to exclude)",
+    "timestamp": true,
+    "_timestamp_info": "ISO 8601 timestamp when change occurred",
+    "ip": true,
+    "_ip_info": "Client IP address that made the change",
+    "username": true,
+    "_username_info": "Username of the client (empty string if not set)",
+    "roomId": true,
+    "_roomId_info": "Room/project ID where change occurred",
+    "variableName": true,
+    "_variableName_info": "Name of the variable that was changed",
+    "oldValue": true,
+    "_oldValue_info": "Previous value (null for 'create' action)",
+    "newValue": true,
+    "_newValue_info": "New value set (null for 'delete' action)",
+    "userAgent": true,
+    "_userAgent_info": "Client's user agent header string",
+    "action": true,
+    "_action_info": "Action performed: 'create', 'update', or 'delete'",
+    "clientCount": true,
+    "_clientCount_info": "Number of clients connected to the room",
+    "valueType": true,
+    "_valueType_info": "JavaScript type of the value: 'string', 'number', 'boolean', etc."
+  },
+
+  "limits": {
+    "_comment": "Rate limiting and suspicious activity detection - Detect abnormal usage patterns",
+    "enableRateLimiting": false,
+    "_enableRateLimiting_info": "Set to true to enforce rate limits and flag suspicious activity",
+    "maxChangesPerSecondPerClient": 100,
+    "_maxChangesPerSecondPerClient_info": "Max variable changes per second for any single client (0=unlimited)",
+    "maxChangesPerMinutePerVariable": 1000,
+    "_maxChangesPerMinutePerVariable_info": "Max changes per minute for any single variable (0=unlimited)",
+    "logSuspiciousActivity": true,
+    "_logSuspiciousActivity_info": "Add 'suspicious' flag to log entries when rate limits exceeded",
+    "suspiciousThreshold": 50,
+    "_suspiciousThreshold_info": "Changes above this threshold flagged as suspicious (when enableRateLimiting=true)"
+  },
+
+  "valueMasking": {
+    "_comment": "Value masking - Protect sensitive data by truncating or redacting values in logs",
+    "enabled": false,
+    "_enabled_info": "Set to true to mask/redact variable values in logs",
+    "maskLongValues": true,
+    "_maskLongValues_info": "Truncate values longer than maxValueLength and append '...'",
+    "maxValueLength": 100,
+    "_maxValueLength_info": "Max characters to show before truncation (if maskLongValues=true)",
+    "maskSensitivePatterns": false,
+    "_maskSensitivePatterns_info": "Mask patterns like email addresses, phone numbers, etc. (future feature)"
+  }
+}
+

@@ -8,6 +8,7 @@ const validators = require('./validators');
 const logger = require('./logger');
 const naughty = require('./naughty');
 const config = require('./config');
+const variableAuditLog = require('./variableAuditLog');
 
 const wss = new WebSocket.Server({
   noServer: true, // we setup the server on our own
@@ -149,7 +150,21 @@ wss.on('connection', (ws, req) => {
 
     if (!client.room) throw new ConnectionError(ConnectionError.Error, 'No room setup yet');
 
+    const oldValue = client.room.get(variable);
     client.room.delete(variable);
+
+    // Log the variable deletion to audit log
+    const userAgent = req?.headers['user-agent'] || 'unknown';
+    const clientCount = client.room.getClients().length;
+    variableAuditLog.logChange({
+      client: client,
+      variableName: variable,
+      oldValue: oldValue,
+      newValue: null,
+      action: 'delete',
+      userAgent: userAgent,
+      clientCount: clientCount,
+    });
   }
 
   function performRename(oldName, newName) {
@@ -178,11 +193,29 @@ wss.on('connection', (ws, req) => {
       return;
     }
 
+    let oldValue = null;
+    let action = 'create';
+
     if (client.room.has(variable)) {
+      oldValue = client.room.get(variable);
+      action = 'update';
       client.room.set(variable, value);
     } else {
       client.room.create(variable, value);
     }
+
+    // Log the variable change to audit log
+    const userAgent = req?.headers['user-agent'] || 'unknown';
+    const clientCount = client.room.getClients().length;
+    variableAuditLog.logChange({
+      client: client,
+      variableName: variable,
+      oldValue: oldValue,
+      newValue: value,
+      action: action,
+      userAgent: userAgent,
+      clientCount: clientCount,
+    });
 
     // Generate the send message only when a client will actually hear it.
     const clients = client.room.getClients();

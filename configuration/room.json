@@ -1,11 +1,22 @@
 {
+  "_about": "Room Configuration - Controls limits for rooms, clients, and variables",
+  
   "limits": {
+    "_comment": "Maximum capacity limits for rooms and variables",
     "maxRooms": 16384,
+    "_maxRooms_info": "Maximum number of rooms that can exist simultaneously (global limit)",
     "maxClientsPerRoom": 128,
-    "maxVariablesPerRoom": 128
+    "_maxClientsPerRoom_info": "Maximum number of clients that can connect to a single room",
+    "maxVariablesPerRoom": 128,
+    "_maxVariablesPerRoom_info": "Maximum number of variables that can exist in a single room"
   },
+
   "janitor": {
+    "_comment": "Cleanup settings for removing empty/dormant rooms - Saves memory by removing unused rooms",
     "interval": 3600000,
-    "emptyRoomThreshold": 3600000
+    "_interval_info": "Milliseconds between cleanup scans (3600000 = 1 hour). Lower = more frequent cleanup",
+    "emptyRoomThreshold": 3600000,
+    "_emptyRoomThreshold_info": "Milliseconds a room must be empty before janitor removes it (3600000 = 1 hour)"
   }
 }
+
