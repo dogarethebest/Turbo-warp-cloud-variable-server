@@ -213,9 +213,13 @@ class VariableAuditLog {
 // Create singleton instance
 const variableAuditLog = new VariableAuditLog();
 
-// Cleanup every minute
-setInterval(() => {
+// Cleanup every minute (unref so it doesn't block process exit)
+const cleanupInterval = setInterval(() => {
   variableAuditLog.cleanup();
 }, 60000);
+
+if (cleanupInterval.unref) {
+  cleanupInterval.unref();
+}
 
 module.exports = variableAuditLog;

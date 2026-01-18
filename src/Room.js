@@ -11,6 +11,7 @@
  */
 
 const roomConfig = require('./roomConfig');
+const variableAuditLog = require('./variableAuditLog');
 
 class Room {
   /**
@@ -100,9 +101,10 @@ class Room {
    * This method does not inform clients of the change.
    * @param {string} name The name of the variable
    * @param {string} value The value of the variable
+   * @param {Client} [client] Optional client that created this variable
    * @throws Will throw if the variable already exists, or there are too many variables.
    */
-  create(name, value) {
+  create(name, value, client) {
     if (this.has(name)) {
       throw new Error('Variable already exists');
     }
@@ -110,6 +112,19 @@ class Room {
       throw new Error('Too many variables');
     }
     this.variables.set(name, value);
+    
+    // Log the variable creation
+    if (client) {
+      variableAuditLog.logChange({
+        client: client,
+        variableName: name,
+        oldValue: undefined,
+        newValue: value,
+        action: 'create',
+        userAgent: client.userAgent || undefined,
+        clientCount: this.clients.length,
+      });
+    }
   }
 
   /**
@@ -117,25 +132,55 @@ class Room {
    * This method does not inform clients of the change.
    * @param {string} name The name of the variable
    * @param {Value} value The value of the variable
+   * @param {Client} [client] Optional client that updated this variable
    * @throws Will throw if the variable does not exist.
    */
-  set(name, value) {
+  set(name, value, client) {
     if (!this.has(name)) {
       throw new Error('Variable does not exist');
     }
+    const oldValue = this.variables.get(name);
     this.variables.set(name, value);
+    
+    // Log the variable update
+    if (client) {
+      variableAuditLog.logChange({
+        client: client,
+        variableName: name,
+        oldValue: oldValue,
+        newValue: value,
+        action: 'update',
+        userAgent: client.userAgent || undefined,
+        clientCount: this.clients.length,
+      });
+    }
   }
 
   /**
    * Delete a variable.
    * @param {string} name The name of the variable
+   * @param {Client} [client] Optional client that deleted this variable
    * @throws Will throw if the variable does not exist.
    */
-  delete(name) {
+  delete(name, client) {
     if (!this.has(name)) {
       throw new Error('Variable does not exist');
     }
+    const deletedValue = this.variables.get(name);
     this.variables.delete(name);
+    
+    // Log the variable deletion
+    if (client) {
+      variableAuditLog.logChange({
+        client: client,
+        variableName: name,
+        oldValue: deletedValue,
+        newValue: undefined,
+        action: 'delete',
+        userAgent: client.userAgent || undefined,
+        clientCount: this.clients.length,
+      });
+    }
   }
 
   /**
