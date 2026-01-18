@@ -1,13 +1,7 @@
 const Room = require('./Room');
 const ConnectionError = require('./ConnectionError');
 const logger = require('./logger');
-
-/** Delay between janitor runs. */
-const JANITOR_INTERVAL = 1000 * 60;
-/** Time a room must be empty for before it may be removed by the janitor. */
-const JANITOR_THRESHOLD = 1000 * 60 * 60;
-/** Maximum amount of rooms that can exist at once. Empty rooms are included in this limit. */
-const MAX_ROOMS = 16384;
+const roomConfig = require('./roomConfig');
 
 /**
  * @typedef {import('./Room').RoomID} RoomID
@@ -25,12 +19,28 @@ class RoomList {
      * Maximum amount of rooms that can exist at once.
      * @type {number}
      */
-    this.maxRooms = MAX_ROOMS;
+    this.maxRooms = roomConfig.limits.maxRooms;
+    /**
+     * Delay between janitor runs in milliseconds.
+     * @type {number}
+     * @private
+     */
+    this.janitorIntervalDuration = roomConfig.janitor.interval;
+    /**
+     * Time a room must be empty for before it may be removed by the janitor.
+     * @type {number}
+     * @private
+     */
+    this.janitorThreshold = roomConfig.janitor.emptyRoomThreshold;
     /** Enable or disable logging of events to the console. */
     this.enableLogging = false;
     this.janitor = this.janitor.bind(this);
-    /** @private */
-    this.janitorInterval = null;
+    /**
+     * The interval ID for the janitor timer.
+     * @type {?NodeJS.Timeout}
+     * @private
+     */
+    this.janitorIntervalId = null;
   }
 
   /**
@@ -100,7 +110,7 @@ class RoomList {
    * @private
    */
   janitor() {
-    const removalThreshold = Date.now() - JANITOR_THRESHOLD;
+    const removalThreshold = Date.now() - this.janitorThreshold;
     // I don't know if deleting items from a map during iteration will cause issues,
     // so we'll collect the ids to remove first then remove them after.
     /** @type {RoomID[]} */
@@ -121,7 +131,7 @@ class RoomList {
    * Begin the janitor timer.
    */
   startJanitor() {
-    this.janitorInterval = setInterval(this.janitor, JANITOR_INTERVAL)
+    this.janitorIntervalId = setInterval(this.janitor.bind(this), this.janitorIntervalDuration)
   }
 
   /**
@@ -129,8 +139,8 @@ class RoomList {
    * Stops the janitor timer, if it is started.
    */
   destroy() {
-    if (this.janitorInterval) {
-      clearInterval(this.janitorInterval);
+    if (this.janitorIntervalId) {
+      clearInterval(this.janitorIntervalId);
     }
   }
 }

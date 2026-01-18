@@ -1,0 +1,11 @@
+{
+  "limits": {
+    "maxRooms": 16384,
+    "maxClientsPerRoom": 128,
+    "maxVariablesPerRoom": 128
+  },
+  "janitor": {
+    "interval": 3600000,
+    "emptyRoomThreshold": 3600000
+  }
+}

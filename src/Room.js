@@ -10,6 +10,8 @@
  * @typedef {string|number} Value A value stored in a variable in a Room.
  */
 
+const roomConfig = require('./roomConfig');
+
 class Room {
   /**
    * @param {RoomID} id
@@ -41,11 +43,11 @@ class Room {
     /**
      * Maximum number of variables that can be within this room.
      */
-    this.maxVariables = 128;
+    this.maxVariables = roomConfig.limits.maxVariablesPerRoom;
     /**
      * Maximum number of clients that can be connected to this room.
      */
-    this.maxClients = 128;
+    this.maxClients = roomConfig.limits.maxClientsPerRoom;
   }
 
   /**
