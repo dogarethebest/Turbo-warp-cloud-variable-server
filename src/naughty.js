@@ -8,7 +8,8 @@ function log(msg) {
   const timestamp = new Date().toISOString();
   const line = `[${timestamp}] ${msg}\n`;
   fs.appendFileSync(pathUtil.join(LOG_DIR, 'naughty.log'), line);
-  console.log(line.trim());
+  //console.log(line.trim());
+  // Uncomment the above line to also log to console
 }
 
 /**

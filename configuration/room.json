@@ -5,9 +5,9 @@
     "_comment": "Maximum capacity limits for rooms and variables",
     "maxRooms": 16384,
     "_maxRooms_info": "Maximum number of rooms that can exist simultaneously (global limit)",
-    "maxClientsPerRoom": 128,
+    "maxClientsPerRoom": 32,
     "_maxClientsPerRoom_info": "Maximum number of clients that can connect to a single room",
-    "maxVariablesPerRoom": 128,
+    "maxVariablesPerRoom": 248 ,
     "_maxVariablesPerRoom_info": "Maximum number of variables that can exist in a single room"
   },
 

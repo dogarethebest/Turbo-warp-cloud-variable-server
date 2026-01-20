@@ -14,12 +14,10 @@ Lines that start with # are comments and are ignored. Empty lines are ignored.
 
 for filters that has a code in it use the extension .jsfilter 
 write all Java script code by using <code> </code>
+
+!!!!!!!!!!!!!!!!!!!!!!!! important warning these files can and will result in code execution be careful what you put in these files it should be restricted, but this could be a possible security vulnerability in some configuration !!!!!!!!!!!!!!!!!!!!!!!!
+
 simple example
-
-
-
-
-
 
 # Temporary username bans using date and time
 
