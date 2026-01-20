@@ -13,6 +13,8 @@
   "dependencies": {
     "badwords-list": "^2.0.1-4",
     "finalhandler": "^2.1.0",
+    "scratch-storage": "^5.0.10",
+    "scratch-vm": "^5.0.300",
     "serve-static": "^2.2.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0",

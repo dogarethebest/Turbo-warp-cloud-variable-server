@@ -1,5 +1,28 @@
-node_modules
+de_modules
 # Private filter list
 private.filter
 # Logs
-logs
+logsno
+
+# Mac OS
+.DS_Store
+
+# NPM
+/node_modules
+npm-*
+
+# Testing
+/.nyc_output
+/coverage
+
+# Editor
+/.idea
+/.vscode
+
+# Build
+/dist
+/playground
+/benchmark
+
+# Localization
+/translations

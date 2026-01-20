@@ -6,6 +6,9 @@ const serveStatic = require('serve-static');
 const logger = require('./logger');
 const config = require('./config');
 const wss = require('./server');
+const VirtualMachine = require('./virtual-machine');
+
+module.exports = VirtualMachine;
 
 // We serve static files over HTTP
 const serve = serveStatic('public');
