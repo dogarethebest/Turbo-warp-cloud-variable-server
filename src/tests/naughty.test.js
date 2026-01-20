@@ -13,7 +13,9 @@ describe('naughty word detector', () => {
 
   test('temporary banned usernames', () => {
     expect(naughty('four_unit_test_456')).toBe(true); // currently banned
-    expect(naughty('SafeUser')).toBe(false);          // safe
+    console.log('Note: "four_unit_test_456" is banned until 2028-01-25 15:00');
+    console.log('This test will need to be updated after that date.');
+    expect(naughty('SafeUser')).toBe(false);// safe
   });
 
   test('metrics', () => {
