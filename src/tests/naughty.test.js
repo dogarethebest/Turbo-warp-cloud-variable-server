@@ -9,6 +9,7 @@ describe('naughty word detector', () => {
     expect(naughty(' ')).toBe(false);
     expect(naughty('123')).toBe(false);
     expect(naughty('@#$%')).toBe(false);
+    expect(naughty('fuck')).toBe(true);
   });
 
   test('temporary banned usernames', () => {
