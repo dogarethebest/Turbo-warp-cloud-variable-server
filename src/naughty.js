@@ -1,6 +1,16 @@
 const fs = require('fs');
 const pathUtil = require('path');
 
+const LOG_DIR = pathUtil.join(__dirname, '../log');
+if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true });
+
+function log(msg) {
+  const timestamp = new Date().toISOString();
+  const line = `[${timestamp}] ${msg}\n`;
+  fs.appendFileSync(pathUtil.join(LOG_DIR, 'naughty.log'), line);
+  console.log(line.trim());
+}
+
 /**
  * A list of the names of the loaded filters.
  * @type {string[]}
@@ -22,23 +32,34 @@ const FILTERS = [];
  */
 function loadFilter(name, contents, isCode = false) {
   LOADED_FILTERS.push(name);
+  log(`Loading filter: ${name} (isCode: ${isCode})`);
 
   if (isCode) {
-    // Extract code inside <code>...</code> tags (compatible with older TS/JS targets)
     const codeBlocks = [];
     const regex = /<code>([\s\S]*?)<\/code>/gi;
     let match;
     while ((match = regex.exec(contents)) !== null) {
-      codeBlocks.push(match);
+      codeBlocks.push(match[1]);
     }
 
     for (const block of codeBlocks) {
       try {
-        // Cast to a proper filter type to satisfy TypeScript
-        const filterFunc = /** @type {(text: string) => boolean} */ (new Function('text', block[1]));
+        // Create a raw function from the code block
+        const rawFunc = new Function('text', block);
+        // Wrap it to guarantee boolean output and catch runtime errors
+        const filterFunc = function(text) {
+          try {
+            return Boolean(rawFunc(text));
+          } catch (err) {
+            log(`Error in JS filter "${name}" execution: ${err}`);
+            return false;
+          }
+        };
         FILTERS.push(filterFunc);
+        log(`Loaded JS filter from ${name}`);
       } catch (err) {
-        console.error(`Error loading code filter "${name}":`, err);
+        log(`Error loading JS filter "${name}": ${err}`);
+        console.error(err);
       }
     }
   } else {
@@ -46,15 +67,21 @@ function loadFilter(name, contents, isCode = false) {
       .map(i => i.trim())
       .filter(i => i && !i.startsWith('#'))
       .map(i => new RegExp(i, 'i'))
-      .forEach(regex => FILTERS.push(text => regex.test(text)));
+      .forEach(regex => {
+        FILTERS.push(function(txt) { return regex.test(txt); });
+        log(`Loaded regex filter from ${name}: ${regex}`);
+      });
   }
 }
+
 /**
  * Return whether a file should be read as a filter list.
  * @param {string} fileName 
  */
 function isFilterList(fileName) {
-  return fileName.endsWith('.filter') || fileName.endsWith('.jsfilter');
+  const result = fileName.endsWith('.filter') || fileName.endsWith('.jsfilter');
+  log(`Checking if file is filter: ${fileName} => ${result}`);
+  return result;
 }
 
 /**
@@ -62,13 +89,19 @@ function isFilterList(fileName) {
  */
 function loadFilters() {
   const FILTER_DIRECTORY = pathUtil.join(__dirname, 'filters');
+  log(`Loading filters from directory: ${FILTER_DIRECTORY}`);
+
   const filterFiles = fs.readdirSync(FILTER_DIRECTORY).filter(isFilterList);
+  log(`Found filter files: ${filterFiles.join(', ')}`);
 
   for (const fileName of filterFiles) {
     const fullPath = pathUtil.join(FILTER_DIRECTORY, fileName);
     const contents = fs.readFileSync(fullPath, 'utf8');
+    log(`Reading filter file: ${fileName}`);
     loadFilter(fileName, contents, fileName.endsWith('.jsfilter'));
   }
+
+  log(`Total filters loaded: ${FILTERS.length}`);
 }
 
 /**
@@ -77,12 +110,19 @@ function loadFilters() {
  * @returns {boolean}
  */
 function naughty(text) {
-  // Remove non-alphanumerics
-  const cleaned = text.replace(/[^a-z0-9]/gi, '');
-
+  log(`Checking text: "${text}"`);
   for (const filter of FILTERS) {
-    if (filter(cleaned)) return true;
+    try {
+      if (filter(text)) {
+        log(`Text matched a filter: "${text}"`);
+        return true;
+      }
+    } catch (err) {
+      log(`Error running filter on text "${text}": ${err}`);
+      console.error(err);
+    }
   }
+  log(`Text passed all filters: "${text}"`);
   return false;
 }
 

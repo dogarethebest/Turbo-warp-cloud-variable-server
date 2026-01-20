@@ -1,0 +1,42 @@
+[2026-01-20T16:28:16.505Z] Loading filters from directory: /workspaces/Turbo-warp-cloud-variable-server/src/filters
+[2026-01-20T16:28:16.517Z] Checking if file is filter: README.md => false
+[2026-01-20T16:28:16.518Z] Checking if file is filter: band_users.jsfilter => true
+[2026-01-20T16:28:16.519Z] Found filter files: band_users.jsfilter
+[2026-01-20T16:28:16.520Z] Reading filter file: band_users.jsfilter
+[2026-01-20T16:28:16.521Z] Loading filter: band_users.jsfilter (isCode: true)
+[2026-01-20T16:28:16.523Z] Loaded JS filter from band_users.jsfilter
+[2026-01-20T16:28:16.524Z] Total filters loaded: 1
+[2026-01-20T16:28:16.528Z] Checking text: "iloveceebee"
+[2026-01-20T16:28:16.530Z] Text passed all filters: "iloveceebee"
+[2026-01-20T16:28:16.532Z] Checking text: ""
+[2026-01-20T16:28:16.534Z] Text passed all filters: ""
+[2026-01-20T16:28:16.535Z] Checking text: " "
+[2026-01-20T16:28:16.537Z] Text passed all filters: " "
+[2026-01-20T16:28:16.539Z] Checking text: "123"
+[2026-01-20T16:28:16.540Z] Text passed all filters: "123"
+[2026-01-20T16:28:16.542Z] Checking text: "@#$%"
+[2026-01-20T16:28:16.546Z] Text passed all filters: "@#$%"
+[2026-01-20T16:28:16.552Z] Checking text: "four_unit_test_456"
+[2026-01-20T16:28:16.555Z] Text passed all filters: "four_unit_test_456"
+[2026-01-20T16:28:49.405Z] Loading filters from directory: /workspaces/Turbo-warp-cloud-variable-server/src/filters
+[2026-01-20T16:28:49.423Z] Checking if file is filter: README.md => false
+[2026-01-20T16:28:49.425Z] Checking if file is filter: band_users.jsfilter => true
+[2026-01-20T16:28:49.426Z] Found filter files: band_users.jsfilter
+[2026-01-20T16:28:49.427Z] Reading filter file: band_users.jsfilter
+[2026-01-20T16:28:49.428Z] Loading filter: band_users.jsfilter (isCode: true)
+[2026-01-20T16:28:49.430Z] Loaded JS filter from band_users.jsfilter
+[2026-01-20T16:28:49.431Z] Total filters loaded: 1
+[2026-01-20T16:28:49.435Z] Checking text: "iloveceebee"
+[2026-01-20T16:28:49.437Z] Text passed all filters: "iloveceebee"
+[2026-01-20T16:28:49.440Z] Checking text: ""
+[2026-01-20T16:28:49.441Z] Text passed all filters: ""
+[2026-01-20T16:28:49.443Z] Checking text: " "
+[2026-01-20T16:28:49.445Z] Text passed all filters: " "
+[2026-01-20T16:28:49.447Z] Checking text: "123"
+[2026-01-20T16:28:49.453Z] Text passed all filters: "123"
+[2026-01-20T16:28:49.455Z] Checking text: "@#$%"
+[2026-01-20T16:28:49.456Z] Text passed all filters: "@#$%"
+[2026-01-20T16:28:49.460Z] Checking text: "four_unit_test_456"
+[2026-01-20T16:28:49.466Z] Text matched a filter: "four_unit_test_456"
+[2026-01-20T16:28:49.467Z] Checking text: "SafeUser"
+[2026-01-20T16:28:49.469Z] Text passed all filters: "SafeUser"

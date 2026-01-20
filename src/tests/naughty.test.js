@@ -1,17 +1,23 @@
 // This file contains words that some may find disturbing.
-
 const naughty = require('../naughty');
 
-test('naughty word detector', () => {
-  expect(naughty('four_unit_test_456')).toBe(true);
-  expect(naughty('iloveceebee')).toBe(false);
-  expect(naughty('')).toBe(false);
-  expect(naughty('')).toBe(false);
-  expect(naughty(' ')).toBe(false);
-  expect(naughty('123')).toBe(false);
-});
+describe('naughty word detector', () => {
+  test('basic detection', () => {
+    
+    expect(naughty('iloveceebee')).toBe(false);
+    expect(naughty('')).toBe(false);
+    expect(naughty(' ')).toBe(false);
+    expect(naughty('123')).toBe(false);
+    expect(naughty('@#$%')).toBe(false);
+  });
 
-test('metrics', () => {
-  expect(naughty.getTotalBlockedPhrases()).toBeGreaterThan(0);
-  expect(naughty.getTotalFilterLists()).toBeGreaterThan(0);
+  test('temporary banned usernames', () => {
+    expect(naughty('four_unit_test_456')).toBe(true); // currently banned
+    expect(naughty('SafeUser')).toBe(false);          // safe
+  });
+
+  test('metrics', () => {
+    expect(naughty.getTotalBlockedPhrases()).toBeGreaterThan(0);
+    expect(naughty.getTotalFilterLists()).toBeGreaterThan(0);
+  });
 });

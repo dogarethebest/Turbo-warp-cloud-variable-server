@@ -6,8 +6,7 @@
 <code>
 // Map of banned usernames and when their ban expires (in YYYY-MM-DD HH:mm format)
 const bannedUsers = {
-    "four_unit_test_456 ": "3030-01-25 15:00",   //sample not an actual user 
-    "Troll456": "2020-01-22 12:30"     //sample not an actual user
+    "four_unit_test_456": "3000-01-25 15:00"
 };
 
 // Current date and time
