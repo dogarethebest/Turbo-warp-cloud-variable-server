@@ -1,18 +1,7 @@
 # Turbo Warp Cloud Variable Server
 
-A fork of the [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server) with enhanced monitoring, auditing, and configuration management capabilities.
+A fork of the [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server) designed for production environments 
 
-## 📋 Overview
-
-This is a **modified version** of the TurboWarp cloud server that adds:
-
-- **Variable Change Monitoring** - Track who changes what variables and when
-- **Audit Logging** - Detailed JSON logs of all variable operations
-- **Rate Limiting** - Detect and flag suspicious activity patterns
-- **Configurable Limits** - Control room sizes, variables per room, and cleanup policies
-- **Value Masking** - Protect sensitive data in logs
-
-## ✨ Features
 
 ### 🔍 Comprehensive Audit Logging
 - Logs every variable create, update, and delete operation
@@ -148,10 +137,4 @@ MIT License - Same as TurboWarp cloud-server
 - Original [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server)
 - TurboWarp team and community
 
-## 📞 Questions?
 
-Feel free to open an issue if you have questions or need help understanding the code. This project is meant to be approachable for everyone!
-
----
-
-**Happy coding!** 🎉

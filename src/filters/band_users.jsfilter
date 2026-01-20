@@ -1,0 +1,32 @@
+# Temporary username bans using date and time
+# note this exampleis designed if you have a game where you integrate to steamworks
+# and the username is generated from there or some equivalent 
+
+
+<code>
+// Map of banned usernames and when their ban expires (in YYYY-MM-DD HH:mm format)
+const bannedUsers = {
+    "four_unit_test_456 ": "3030-01-25 15:00",   //sample not an actual user 
+    "Troll456": "2020-01-22 12:30"     //sample not an actual user
+};
+
+// Current date and time
+const now = new Date();
+
+// Helper function to parse the ban expiration string into a Date object
+function parseDateTime(dateTimeStr) {
+    // Convert "YYYY-MM-DD HH:mm" to "YYYY-MM-DDTHH:mm" for Date parsing
+    return new Date(dateTimeStr.replace(" ", "T"));
+}
+
+// Check if the username is currently banned
+for (const username in bannedUsers) {
+    const expiry = parseDateTime(bannedUsers[username]);
+    if (text.toLowerCase() === username.toLowerCase() && now < expiry) {
+        return true; // naughty
+    }
+}
+
+// If no match or ban expired, return false
+return false;
+</code>
