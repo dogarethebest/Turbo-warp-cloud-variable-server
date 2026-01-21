@@ -3,8 +3,6 @@
 A fork of the [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server) designed for production environments 
 
 
-legal notes, disclaimers and licenses can be found under /legal by accessing the source code you agreed to everything in this directory and all subdirectory
-
 ### 🔍 Comprehensive Audit Logging
 - Logs every variable create, update, and delete operation
 - Records IP addresses, usernames, timestamps, and old/new values
@@ -37,8 +35,9 @@ npm test
 
 ### Start Server
 ```bash
-node src/index.js
+npm start
 ```
+
 Server runs on port 9080 by default.
 
 ## 📁 Configuration Files
@@ -56,10 +55,6 @@ Set server capacity:
 - Max clients per room: 128
 - Max variables per room: 128
 - Janitor cleanup intervals
-
-## `enable and disable project backend`
-scr/index.js
-const enabled_Project_backend = false; // Set to true to enable running Project_backend.sb3
 
 **Both files have inline comments explaining each setting.**
 
