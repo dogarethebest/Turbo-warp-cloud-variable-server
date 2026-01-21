@@ -1,3 +1,16 @@
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function example() {
+    console.log("Waiting 5 seconds...");
+    await sleep(5000); // pause here
+    console.log("Done waiting!");
+}
+
+example();
+
+
 let _TextEncoder;
 if (typeof TextEncoder === 'undefined') {
     _TextEncoder = require('text-encoding').TextEncoder;
@@ -411,11 +424,35 @@ class VirtualMachine extends EventEmitter {
     setVideoProvider (videoProvider) {
         this.runtime.ioDevices.video.setProvider(videoProvider);
     }
+    setCloudProvider() { const WebSocket = require('ws'); // Use global WebSocket in browsers
+        // Simple provider object that only connects to localhost
+    const localProvider = {
+        socket: new WebSocket('ws://localhost:9080'),
 
-    setCloudProvider (cloudProvider) {
-        this.runtime.ioDevices.cloud.setProvider(cloudProvider);
-    }
+        on(event, callback) {
+            this.socket.addEventListener(event, callback);
+        },
 
+        setVariable(name, value) {
+            if (this.socket.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({ type: 'SET', name, value }));
+            }
+        },
+
+        getVariable(name) {
+            if (this.socket.readyState === WebSocket.OPEN) {
+                this.socket.send(JSON.stringify({ type: 'GET', name }));
+            }
+        },
+
+        disconnect() {
+            if (this.socket) this.socket.close();
+        }
+    };
+
+    this.runtime.ioDevices.cloud.setProvider(localProvider);
+
+}
     /**
      * Tell the specified extension to scan for a peripheral.
      * @param {string} extensionId - the id of the extension.
