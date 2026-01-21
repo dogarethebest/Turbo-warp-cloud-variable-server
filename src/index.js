@@ -8,34 +8,37 @@ const config = require('./config');
 const wss = require('./server');
 const VirtualMachine = require('./virtual-machine');
 
-// Automatically run the SB3 project in the background
-(async () => {
-  try {
-    // Replace this with the path to your SB3 project
-    const path = require('path');
-    const fs = require('fs');
+const enabled_Project_backend = false; // Set to true to enable running Project_backend.sb3
 
-    const PROJECT_PATH = path.join(__dirname, '../Project_backend/Project_backend.sb3');
+if(enabled_Project_backend){
+  // Automatically run the SB3 project in the background
+  (async () => {
+    try {
+      // Replace this with the path to your SB3 project
+      const path = require('path');
+      const fs = require('fs');
 
-    // Ensure the file exists
-    if (fs.existsSync(PROJECT_PATH)) {
-      const projectData = fs.readFileSync(PROJECT_PATH);
+      const PROJECT_PATH = path.join(__dirname, '../Project_backend/Project_backend.sb3');
 
-      // Create and run VM
-      const vm = new VirtualMachine();
-      await vm.loadProject(projectData);
-      vm.start();
-      vm.greenFlag();
+      // Ensure the file exists
+      if (fs.existsSync(PROJECT_PATH)) {
+        const projectData = fs.readFileSync(PROJECT_PATH);
 
-      console.log('Project_backend.sb3 is running in the background.');
-    } else {
-      console.warn(`SB3 project not found at ${PROJECT_PATH}`);
+        // Create and run VM
+        const vm = new VirtualMachine();
+        await vm.loadProject(projectData);
+        vm.start();
+        vm.greenFlag();
+
+        console.log('Project_backend.sb3 is running in the background.');
+      } else {
+        console.warn(`SB3 project not found at ${PROJECT_PATH}`);
+      }
+    } catch (err) {
+      console.error('Error running SB3 project:', err);
     }
-  } catch (err) {
-    console.error('Error running SB3 project:', err);
-  }
-})();
-
+  })();
+}
 // Export VirtualMachine as before
 module.exports = VirtualMachine;
 
