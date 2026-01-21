@@ -57,6 +57,10 @@ Set server capacity:
 - Max variables per room: 128
 - Janitor cleanup intervals
 
+## `enable and disable project backend`
+scr/index.js
+const enabled_Project_backend = false; // Set to true to enable running Project_backend.sb3
+
 **Both files have inline comments explaining each setting.**
 
 ## 📊 Audit Logs
