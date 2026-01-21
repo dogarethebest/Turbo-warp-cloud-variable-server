@@ -35,9 +35,8 @@ npm test
 
 ### Start Server
 ```bash
-npm start
+node src/index.js
 ```
-
 Server runs on port 9080 by default.
 
 ## 📁 Configuration Files
