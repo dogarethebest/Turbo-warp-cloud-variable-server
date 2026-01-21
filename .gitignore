@@ -2,7 +2,9 @@ de_modules
 # Private filter list
 private.filter
 # Logs
-logsno
+logs/
+logs
+log
 
 # Mac OS
 .DS_Store
