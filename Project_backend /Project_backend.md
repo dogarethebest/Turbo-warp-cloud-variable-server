@@ -1,1 +1,3 @@
 Replace the SB3 file with the one of the name you require. The one currently in here is for testing purposes only, not actually important.
+
+When using your own, it must be the same name

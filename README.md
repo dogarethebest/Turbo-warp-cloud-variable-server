@@ -3,6 +3,8 @@
 A fork of the [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server) designed for production environments 
 
 
+legal notes, disclaimers and licenses can be found under /legal by accessing the source code you agreed to everything in this directory and all subdirectory
+
 ### 🔍 Comprehensive Audit Logging
 - Logs every variable create, update, and delete operation
 - Records IP addresses, usernames, timestamps, and old/new values
