@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./configLoader');
 
 /**
  * Extract the value of the x-forwarded-for header.
@@ -26,13 +26,13 @@ function getAddress(req) {
     return '(req missing)';
   }
 
-  if (config.anonymizeAddresses) {
+  if (config.serverConfig.proxy.anonymizeAddresses) {
     return '0.0.0.0';
   }
 
   let address = req.socket.remoteAddress || '(remoteAddress missing)';
 
-  if (config.trustProxy) {
+  if (config.serverConfig.proxy.trustProxy) {
     const forwardedFor = getForwardedFor(req.headers);
     if (forwardedFor !== null) {
       address = forwardedFor;

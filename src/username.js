@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./configLoader');
 
 const ANONYMIZE = /^player\d{2,7}$/i;
 
@@ -8,7 +8,7 @@ const ANONYMIZE = /^player\d{2,7}$/i;
  * @returns {string} Anonymized username or original username.
  */
 function parseUsername(username) {
-  if (config.anonymizeGeneratedUsernames && isGenerated(username)) {
+  if (config.serverConfig.features.anonymizeGeneratedUsernames && isGenerated(username)) {
     return 'player';
   }
   return username;

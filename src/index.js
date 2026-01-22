@@ -4,7 +4,7 @@ const finalhandler = require('finalhandler');
 const serveStatic = require('serve-static');
 
 const logger = require('./logger');
-const config = require('./config');
+const config = require('./configLoader');
 const wss = require('./server');
 
 // We serve static files over HTTP

@@ -10,7 +10,7 @@
  * @typedef {string|number} Value A value stored in a variable in a Room.
  */
 
-const roomConfig = require('./roomConfig');
+const config = require('./configLoader');
 const variableAuditLog = require('./variableAuditLog');
 
 class Room {
@@ -44,11 +44,11 @@ class Room {
     /**
      * Maximum number of variables that can be within this room.
      */
-    this.maxVariables = roomConfig.limits.maxVariablesPerRoom;
+    this.maxVariables = config.roomConfig.limits.maxVariablesPerRoom;
     /**
      * Maximum number of clients that can be connected to this room.
      */
-    this.maxClients = roomConfig.limits.maxClientsPerRoom;
+    this.maxClients = config.roomConfig.limits.maxClientsPerRoom;
   }
 
   /**
@@ -121,7 +121,7 @@ class Room {
         oldValue: undefined,
         newValue: value,
         action: 'create',
-        userAgent: client.userAgent || undefined,
+        userAgent: client.userAgent,
         clientCount: this.clients.length,
       });
     }
@@ -150,7 +150,7 @@ class Room {
         oldValue: oldValue,
         newValue: value,
         action: 'update',
-        userAgent: client.userAgent || undefined,
+        userAgent: client.userAgent,
         clientCount: this.clients.length,
       });
     }
@@ -177,7 +177,7 @@ class Room {
         oldValue: deletedValue,
         newValue: undefined,
         action: 'delete',
-        userAgent: client.userAgent || undefined,
+        userAgent: client.userAgent,
         clientCount: this.clients.length,
       });
     }

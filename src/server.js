@@ -7,14 +7,14 @@ const ConnectionManager = require('./ConnectionManager');
 const validators = require('./validators');
 const logger = require('./logger');
 const naughty = require('./naughty');
-const config = require('./config');
+const config = require('./configLoader');
 const variableAuditLog = require('./variableAuditLog');
 
 const wss = new WebSocket.Server({
   noServer: true, // we setup the server on our own
   clientTracking: false, // we do our own tracking
   maxPayload: 1024 * 1024, // 1 MB should be plenty
-  perMessageDeflate: config.perMessageDeflate,
+  perMessageDeflate: config.serverConfig.websocket.perMessageDeflate,
 });
 
 const rooms = new RoomList();

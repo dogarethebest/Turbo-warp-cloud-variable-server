@@ -1,14 +1,14 @@
 const winston = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 const path = require('path');
-const monitoringConfig = require('./monitoringConfig');
+const config = require('./configLoader');
 
 /**
  * Variable audit logger for tracking changes to variables
  */
 class VariableAuditLog {
   constructor() {
-    this.config = monitoringConfig;
+    this.config = config.monitoringConfig;
     this.auditLogger = null;
     this.changeHistory = new Map(); // Track changes for rate limiting
     this.init();
