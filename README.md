@@ -24,21 +24,57 @@ A fork of the [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server
 ## 🚀 Quick Start
 
 ### Installation
+
+#### Automated Setup (Recommended)
+For fresh Ubuntu 24.04 installations with a non-root user:
+
+for release (Recommended)
 ```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/dogarethebest/Turbo-warp-cloud-variable-server/release/install.sh)"
+```
+
+for dev
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/dogarethebest/Turbo-warp-cloud-variable-server/dev/install.sh)"
+``` 
+
+
+**What the installer does:**
+- ✅ Updates system packages
+- ✅ Installs Node.js 18, Git, and curl
+- ✅ Clones the repository
+- ✅ Installs npm dependencies
+- ✅ Creates systemd service for auto-start
+- ✅ Configures UFW firewall (allows port 8090)
+- ✅ Sets up fail2ban for SSH protection
+- ✅ Configures rsyslog for UFW logging
+- ✅ Starts the service automatically
+
+**Requirements:**
+- Fresh Ubuntu 24.04 system
+- Non-root user with sudo privileges
+- No existing web servers on the machine
+
+**Output locations after install:**
+- Installation log: `~/Turbo-warp-cloud-variable-server/logs/install.log`
+- Server logs: `~/Turbo-warp-cloud-variable-server/logs/server.log`
+- Error logs: `~/Turbo-warp-cloud-variable-server/logs/error.log`
+- UFW logs: `~/Turbo-warp-cloud-variable-server/logs/ufw/ufw.log`
+
+#### Manual Setup
+
+```bash
+# 1. Install dependencies
 npm install
-```
 
-### Run Tests
-```bash
+# 2. Run tests
 npm test
-```
 
-### Start Server
-```bash
+# 3. Start server
 npm start
 ```
 
-Server runs on port 9080 by default.
+Server runs on port 9080 by default (or 127.0.0.1:8090 in systemd mode).
 
 ## 📁 Configuration Files
 
