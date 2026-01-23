@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 set -e
 
+echo "welcome to the TurboWarp Cloud Variable Server installer!"
+echo "This script will install and configure the server on your system."
+echo "Please ensure you are running this script on a fresh Ubuntu 22.04 installation."
+echo "and that you have a non-root user with sudo privileges."
+echo "this script will set up a firewall and basic security measures."
+echo "you should not run this script if you have an existing web server or services running on this machine."
+echo "the source code is available at: https://github.com/dogarethebest/Turbo-warp-cloud-variable-server"
+echo "Press Ctrl+C to cancel or wait 10 seconds to continue..."
+for i in {10..1}; do
+    echo "$i"
+    sleep 1
+done
+
 SERVICE_NAME=turbowarp-cloud
 INSTALL_DIR="$HOME/Turbo-warp-cloud-variable-server"
 LOGS_DIR="$INSTALL_DIR/logs"
@@ -44,13 +57,15 @@ After=network.target
 Type=simple
 User=$RUN_USER
 WorkingDirectory=$INSTALL_DIR
-ExecStart=/usr/bin/npm start
 Restart=always
 RestartSec=5
 Environment=NODE_ENV=production
 StandardOutput=append:$LOGS_DIR/server.log
 StandardError=append:$LOGS_DIR/error.log
-
+ProtectSystem=full
+NoNewPrivileges=true
+PrivateTmp=true
+ExecStart=/usr/bin/npm start -- --hostname 127.0.0.1
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -61,10 +76,32 @@ sudo systemctl enable $SERVICE_NAME
 echo "==> Installing & configuring UFW firewall"
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
-sudo ufw limit 22/tcp
 sudo ufw allow 8090/tcp
 sudo ufw logging high
+sudo ufw allow 22/tcp comment 'SSH'
+sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
+sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW \
+  -m recent --update --seconds 200 --hitcount 5 -j DROP
 sudo ufw --force enable
+sudo apt install -y iptables-persistent
+sudo netfilter-persistent save
+
+echo "==> Installing fail2ban for SSH protection"
+sudo apt install -y fail2ban
+
+sudo tee /etc/fail2ban/jail.local > /dev/null <<EOF
+[sshd]
+enabled = true
+port = 22
+filter = sshd
+logpath = /var/log/auth.log
+maxretry = 3
+findtime = 600
+bantime = 3600
+EOF
+
+sudo systemctl enable fail2ban
+sudo systemctl restart fail2ban
 
 # Firewall custom logs
 UFW_LOG_DIR="$LOGS_DIR/ufw"
@@ -90,3 +127,11 @@ echo "Installation log: $INSTALL_LOG"
 echo "Application logs: $LOGS_DIR/server.log"
 echo "UFW logs: $UFW_LOG_FILE"
 systemctl status $SERVICE_NAME --no-pager
+
+# Reboot countdown
+echo "Rebooting in 10 seconds..."
+for i in {10..1}; do
+    echo "$i"
+    sleep 1
+done
+sudo reboot
