@@ -3,13 +3,20 @@ set -e
 
 echo "welcome to the TurboWarp Cloud Variable Server installer!"
 echo "This script will install and configure the server on your system."
-echo "Please ensure you are running this script on a fresh Ubuntu 22.04 installation."
+echo "Please ensure you are running this script on a fresh Ubuntu 24.04 installation."
 echo "and that you have a non-root user with sudo privileges."
 echo "this script will set up a firewall and basic security measures."
 echo "you should not run this script if you have an existing web server or services running on this machine."
 echo "the source code is available at: https://github.com/dogarethebest/Turbo-warp-cloud-variable-server"
-echo "Press Ctrl+C to cancel or wait 10 seconds to continue..."
-for i in {10..1}; do
+echo "Press Ctrl+C to cancel or wait 20 seconds to continue..."
+# Check for sudo privileges
+if ! sudo -v >/dev/null 2>&1; then
+    echo "ERROR: This script requires sudo privileges. Please run as a user with sudo access."
+    sleep 10
+    exit 1
+fi
+
+for i in {20..1}; do
     echo "$i"
     sleep 1
 done
