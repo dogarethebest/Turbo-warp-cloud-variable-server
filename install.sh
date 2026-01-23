@@ -11,7 +11,7 @@ echo "the source code is available at: https://github.com/dogarethebest/Turbo-wa
 echo "Press Ctrl+C to cancel or wait 20 seconds to continue..."
 # Check for sudo privileges
 if ! sudo -v >/dev/null 2>&1; then
-    echo "ERROR: This script requires sudo privileges. Please run as a user with sudo access."
+    echo "ERROR: This script requires sudo privileges. Please run as a non-root user with sudo access."
     sleep 10
     exit 1
 fi
