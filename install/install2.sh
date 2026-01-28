@@ -80,40 +80,6 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable $SERVICE_NAME
 
-echo "==> Installing & configuring UFW firewall"
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow 8090/tcp
-sudo ufw logging high
-sudo ufw allow 22/tcp comment 'SSH'
-sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
-sudo iptables -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW \
-  -m recent --update --seconds 200 --hitcount 5 -j DROP
-sudo ufw --force enable
-sudo apt install -y iptables-persistent
-sudo netfilter-persistent save
-
-echo "==> Installing fail2ban for SSH protection"
-sudo apt install -y fail2ban
-
-sudo tee /etc/fail2ban/jail.local > /dev/null <<EOF
-[sshd]
-enabled = true
-port = 22
-filter = sshd
-logpath = /var/log/auth.log
-maxretry = 3
-findtime = 600
-bantime = 3600
-EOF
-
-sudo systemctl enable fail2ban
-sudo systemctl restart fail2ban
-
-# Firewall custom logs
-UFW_LOG_DIR="$LOGS_DIR/ufw"
-UFW_LOG_FILE="$UFW_LOG_DIR/ufw.log"
-
 mkdir -p "$UFW_LOG_DIR"
 sudo chown syslog:adm "$UFW_LOG_DIR"
 sudo chmod 750 "$UFW_LOG_DIR"
@@ -132,7 +98,6 @@ sudo systemctl start $SERVICE_NAME
 echo "==> Done!"
 echo "Installation log: $INSTALL_LOG"
 echo "Application logs: $LOGS_DIR/server.log"
-echo "UFW logs: $UFW_LOG_FILE"
 systemctl status $SERVICE_NAME --no-pager
 
 # Reboot countdown
