@@ -1,0 +1,62 @@
+{
+  "_about": "Main Server Configuration - Central configuration for all server settings",
+  
+  "server": {
+    "_comment": "Server port and socket settings",
+    "port": 9080,
+    "_port_info": "Port for the server to listen on. Can be a number or unix socket path (e.g., '/tmp/socket'). Overrides PORT env var",
+    "unixSocketPermissions": 511,
+    "_unixSocketPermissions_info": "Unix permissions for unix sockets (use octal like 0o777 = 511 decimal). Set to -1 to disable permission changing"
+  },
+
+  "proxy": {
+    "_comment": "Proxy and security settings",
+    "trustProxy": false,
+    "_trustProxy_info": "Read x-forwarded-for header from proxy. Set to true if behind reverse proxy. Controlled by TRUST_PROXY env var",
+    "anonymizeAddresses": false,
+    "_anonymizeAddresses_info": "Remove IP addresses from logs. Set to true for privacy. Controlled by ANONYMIZE_ADDRESSES env var"
+  },
+
+  "websocket": {
+    "_comment": "WebSocket settings",
+    "maxPayload": 1048576,
+    "_maxPayload_info": "Maximum WebSocket message size in bytes (1048576 = 1 MB)",
+    "perMessageDeflate": false,
+    "_perMessageDeflate_info": "Enable WebSocket per-message deflate compression (object for options, false to disable)"
+  },
+
+  "performance": {
+    "_comment": "Performance optimization settings",
+    "bufferSends": 60,
+    "_bufferSends_info": "Buffer variable sends to this many per second (0 = no buffering, higher = better performance but higher latency)"
+  },
+
+  "features": {
+    "_comment": "Feature enable/disable flags",
+    "enableRename": false,
+    "_enableRename_info": "Allow clients to rename variables",
+    "enableDelete": false,
+    "_enableDelete_info": "Allow clients to delete variables",
+    "anonymizeGeneratedUsernames": true,
+    "_anonymizeGeneratedUsernames_info": "Replace generated usernames like 'player123456' with just 'player' in logs"
+  },
+
+  "logging": {
+    "_comment": "Logger configuration",
+    "console": true,
+    "_console_info": "Log to console output",
+    "rotation": {
+      "_comment": "Daily log rotation settings - Winston Daily Rotate File options",
+      "filename": "%DATE%.log",
+      "_filename_info": "Log filename pattern with %DATE% placeholder for date injection",
+      "dirname": "logs",
+      "_dirname_info": "Directory for log files. LOGS_DIRECTORY env var overrides this for systemd services",
+      "datePattern": "YYYY-MM-DD",
+      "_datePattern_info": "Date pattern for log rotation - creates new file each day",
+      "maxFiles": "7d",
+      "_maxFiles_info": "Delete logs older than this duration (e.g., '7d' = 7 days)",
+      "createSymlink": true,
+      "_createSymlink_info": "Create 'X.log' symlink pointing to latest log file"
+    }
+  }
+}

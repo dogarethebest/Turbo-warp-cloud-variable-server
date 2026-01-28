@@ -6,10 +6,10 @@ const CLOUD_PREFIXES = ['☁ ', ':cloud: '];
 const VARIABLE_NAME_MAX_LENGTH = 1024;
 
 /** The maximum length of a variable's value. */
-const VALUE_MAX_LENGTH = 100000;
+const VALUE_MAX_LENGTH = 1000000;
 
 /** Maximum length of usernames, inclusive. */
-const USERNAME_MAX_LENGTH = 20;
+const USERNAME_MAX_LENGTH = 100;
 /** Minimum length of usernames, inclusive. */
 const USERNAME_MIN_LENGTH = 1;
 /** Regex for usernames to match. Letters, numbers, -, and _ */

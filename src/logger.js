@@ -1,7 +1,7 @@
 const winston = require('winston');
 require('winston-daily-rotate-file');
 
-const config = require('./config');
+const config = require('./configLoader');
 const environment = require('./environment');
 
 const format = winston.format.combine(
@@ -16,11 +16,11 @@ const logger = winston.createLogger({
   format: format
 });
 
-if (config.logging.rotation) {
-  logger.add(new winston.transports.DailyRotateFile(config.logging.rotation));
+if (config.serverConfig.logging.rotation) {
+  logger.add(new winston.transports.DailyRotateFile(config.serverConfig.logging.rotation));
 }
 
-if (config.logging.console && !environment.isTest) {
+if (config.serverConfig.logging.console && !environment.isTest) {
   logger.add(new winston.transports.Console({
     format: winston.format.combine(
       // Include color when logging to console, not when logging to file (results in ugly escape codes)

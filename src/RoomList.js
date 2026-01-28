@@ -1,7 +1,7 @@
 const Room = require('./Room');
 const ConnectionError = require('./ConnectionError');
 const logger = require('./logger');
-const roomConfig = require('./roomConfig');
+const config = require('./configLoader');
 
 /**
  * @typedef {import('./Room').RoomID} RoomID
@@ -19,19 +19,19 @@ class RoomList {
      * Maximum amount of rooms that can exist at once.
      * @type {number}
      */
-    this.maxRooms = roomConfig.limits.maxRooms;
+    this.maxRooms = config.roomConfig.limits.maxRooms;
     /**
      * Delay between janitor runs in milliseconds.
      * @type {number}
      * @private
      */
-    this.janitorIntervalDuration = roomConfig.janitor.interval;
+    this.janitorIntervalDuration = config.roomConfig.janitor.interval;
     /**
      * Time a room must be empty for before it may be removed by the janitor.
      * @type {number}
      * @private
      */
-    this.janitorThreshold = roomConfig.janitor.emptyRoomThreshold;
+    this.janitorThreshold = config.roomConfig.janitor.emptyRoomThreshold;
     /** Enable or disable logging of events to the console. */
     this.enableLogging = false;
     this.janitor = this.janitor.bind(this);

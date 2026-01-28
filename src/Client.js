@@ -19,6 +19,10 @@ class Client {
      */
     this.ip = address.getAddress(req);
     /**
+     * The User-Agent header from the client
+     */
+    this.userAgent = (req && req.headers && req.headers['user-agent']) ? String(req.headers['user-agent']) : '';
+    /**
      * The Room this client is connected to.
      * @type {?Room}
      */
