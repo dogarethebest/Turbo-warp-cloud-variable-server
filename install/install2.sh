@@ -99,11 +99,3 @@ echo "==> Done!"
 echo "Installation log: $INSTALL_LOG"
 echo "Application logs: $LOGS_DIR/server.log"
 systemctl status $SERVICE_NAME --no-pager
-
-# Reboot countdown
-echo "Rebooting in 10 seconds..."
-for i in {10..1}; do
-    echo "$i"
-    sleep 1
-done
-sudo reboot
