@@ -6,7 +6,8 @@
 
 const fs = require('fs');
 const path = require('path');
-const logger = require('./logger');
+// Avoid requiring './logger' here to prevent a circular dependency
+// (logger requires configLoader). Use console for startup config messages.
 
 /**
  * Default server configuration
@@ -129,13 +130,13 @@ function loadConfigFile(filename, defaultConfig, validator) {
       
       if (validator) {
         if (validator(config)) {
-          logger.info(`✓ Loaded ${filename} from configuration folder`);
+          console.info(`✓ Loaded ${filename} from configuration folder`);
           return config;
         } else {
-          logger.warn(`⚠ ${filename} is invalid (missing required fields). Using defaults.`);
+          console.warn(`⚠ ${filename} is invalid (missing required fields). Using defaults.`);
         }
       } else {
-        logger.info(`✓ Loaded ${filename} from configuration folder`);
+        console.info(`✓ Loaded ${filename} from configuration folder`);
         return config;
       }
     } else {
@@ -144,9 +145,9 @@ function loadConfigFile(filename, defaultConfig, validator) {
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     if (error instanceof SyntaxError) {
-      logger.warn(`⚠ ${filename} JSON syntax error: ${errorMessage}. Using defaults.`);
+      console.warn(`⚠ ${filename} JSON syntax error: ${errorMessage}. Using defaults.`);
     } else {
-      logger.warn(`⚠ Failed to load ${filename}: ${errorMessage}. Using defaults.`);
+      console.warn(`⚠ Failed to load ${filename}: ${errorMessage}. Using defaults.`);
     }
   }
 
