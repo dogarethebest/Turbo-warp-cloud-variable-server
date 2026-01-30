@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  cloud-server:
+    build: .
+    image: turbo-warp-cloud-server:latest
+    container_name: turbo_warp_cloud
+    restart: unless-stopped
+    ports:
+      - "9080:9080"
+    environment:
+      # Change these if you want
+      PORT: 9080
+      # You can add other config overrides here
+    volumes:
+      - ./configuration:/usr/src/app/configuration:ro
+      # Optional: for logs / persistent data
+      - ./logs:/usr/src/app/logs
