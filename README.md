@@ -3,52 +3,42 @@
 A fork of the [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server) designed for production environments 
 
 
-### 🔍 Comprehensive Audit Logging
+### Comprehensive Audit Logging
 - Logs every variable create, update, and delete operation
 - Records IP addresses, usernames, timestamps, and old/new values
 - Stores logs in daily-rotated files with JSON format
 - Includes user agent and client count information
 
-### ⚙️ Flexible Configuration
+### Flexible Configuration
 - **monitoring.json** - Control what gets logged and when
 - **room.json** - Set capacity limits and cleanup policies
 - All settings are optional with sensible defaults
 - Easy on/off toggles for different features
 
-### 🚨 Rate Limiting & Security
-- Detect suspicious activity patterns
-- Per-client and per-variable rate limits
-- Configurable thresholds for alerts
-- Automatic flagging of anomalies
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
-
-#### Automated Setup (Recommended)
+you can use the doctor file in the release or you can use
+#### Automated Setup 
 For fresh Ubuntu 24.04 installations with a non-root user:
 
-for release (Recommended)
 ```bash
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/dogarethebest/Turbo-warp-cloud-variable-server/release/install.sh)"
 ```
 
-for dev
-```bash
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/dogarethebest/Turbo-warp-cloud-variable-server/dev/install.sh)"
-``` 
 
 
 **What the installer does:**
-- ✅ Updates system packages
-- ✅ Installs Node.js 18, Git, and curl
-- ✅ Clones the repository
-- ✅ Installs npm dependencies
-- ✅ Creates systemd service for auto-start
-- ✅ Configures UFW firewall (allows port 8090)
-- ✅ Sets up fail2ban for SSH protection
-- ✅ Configures rsyslog for UFW logging
-- ✅ Starts the service automatically
+- Updates system packages
+- Installs Node.js 18, Git, and curl
+- Clones the repository
+- Installs npm dependencies
+- Creates systemd service for auto-start
+- Configures UFW firewall (allows port 8090)
+- Sets up fail2ban for SSH protection
+- Configures rsyslog for UFW logging
+- Starts the service automatically
 
 **Requirements:**
 - Fresh Ubuntu 24.04 system
@@ -76,7 +66,7 @@ npm start
 
 Server runs on port 9080 by default (or 127.0.0.1:8090 in systemd mode).
 
-## 📁 Configuration Files
+## Configuration Files
 
 ### `configuration/monitoring.json`
 Control audit logging behavior:
@@ -94,7 +84,7 @@ Set server capacity:
 
 **Both files have inline comments explaining each setting.**
 
-## 📊 Audit Logs
+## Audit Logs
 
 Logs are stored in `logs/variable-audit.YYYY-MM-DD.log` as JSON:
 
@@ -135,7 +125,7 @@ See [MONITORING_README.md](configuration/MONITORING_README.md) for detailed docu
    tail -f logs/variable-audit.$(date +%Y-%m-%d).log
    ```
 
-## 👨‍💻 About This Project
+## About This Project
 
 I'm **new to coding** and created this as a learning project to better understand:
 - Node.js and WebSocket servers
@@ -143,17 +133,17 @@ I'm **new to coding** and created this as a learning project to better understan
 - Audit logging systems
 - Rate limiting algorithms
 
-## 🤝 Contributing
+## Contributing
 
 **Contributions are welcome!** Whether you're experienced or just learning, your help is appreciated.
 
 ### Ways to Contribute:
-- 🐛 **Report bugs** - Found an issue? Let us know
-- ✨ **Suggest features** - Have an idea? Open an issue
-- 📝 **Improve documentation** - Help explain how things work
-- 🧪 **Write tests** - Add more test coverage
-- 🔧 **Fix issues** - Submit pull requests
-- 💡 **Code review** - Help review other contributions
+- **Report bugs** - Found an issue? Let us know
+- **Suggest features** - Have an idea? Open an issue
+- **Improve documentation** - Help explain how things work
+- **Write tests** - Add more test coverage
+- **Fix issues** - Submit pull requests
+- **Code review** - Help review other contributions
 
 ### Getting Started:
 1. Fork the repository
@@ -162,13 +152,12 @@ I'm **new to coding** and created this as a learning project to better understan
 4. Run tests (`npm test`)
 5. Submit a pull request
 
-We're all learning together, so don't worry about perfection!
 
-## 📄 License
+## License
 
 MIT License - Same as TurboWarp cloud-server
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Original [TurboWarp cloud-server](https://github.com/TurboWarp/cloud-server)
 - TurboWarp team and community
