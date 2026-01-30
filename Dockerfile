@@ -1,22 +1,30 @@
 FROM ubuntu:24.04
 
-# Set working directory
+ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /usr/src/app
 
-# Copy package manifest first (cache deps)
-COPY package*.json ./
+# ---- Install system deps ----
+RUN apt-get update && \
+    apt-get install -y \
+        curl \
+        ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN npm ci --production
+# ---- Install Node.js 20 + npm ----
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y nodejs
 
-# Copy project code
+# (Optional sanity check – highly recommended)
+RUN node -v && npm -v
+
+# ---- Copy dependency manifests FIRST ----
+COPY package.json package-lock.json ./
+
+# ---- Install npm dependencies ----
+RUN npm ci --omit=dev
+
+# ---- Copy rest of the application ----
 COPY . .
 
-# Expose default port
 EXPOSE 9080
-
-# Set environment (optional)
-ENV NODE_ENV=production
-
-# Default command to start the server
 CMD ["npm", "start"]
